@@ -38,3 +38,16 @@ from Project.tblTABLE1 T1, Project.tblTABLE2 T2, Project.tblTABLE3 T3
 where T1."Field7"=T2."Field7" 
   and T2."Field8"=T3."Field8"
   and T1."Field1" like '%-ABC-%';
+  
+--#0417
+--Obj: practice union
+--this is to union all the elements
+select "Field1" from Project.tblTABLE1
+union all
+select "Field1" from Project.tblTABLE2;
+
+--Obj: practice union
+--this is to sort and delete the duplicat ones
+select "Field1" from Project.tblTABLE1
+union all
+select "Field1" from Project.tblTABLE2;
