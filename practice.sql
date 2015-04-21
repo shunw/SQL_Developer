@@ -51,3 +51,14 @@ select "Field1" from Project.tblTABLE2;
 select "Field1" from Project.tblTABLE1
 union all
 select "Field1" from Project.tblTABLE2;
+
+
+--#0421
+--Obj: sub query/ realized the EXCEPT function with the sub query
+--subquery to realized the EXCEPT function
+select "Field1"
+from Project.tblTABLE1
+where "key" in (select "key" from Project.tblTABLE2 where "Field3"=1)
+    and not "key" in (select "key" from Project.tblTABLE2 where "Field3"=17)
+order by "Field1"
+;
