@@ -62,3 +62,23 @@ where "key" in (select "key" from Project.tblTABLE2 where "Field3"=1)
     and not "key" in (select "key" from Project.tblTABLE2 where "Field3"=17)
 order by "Field1"
 ;
+
+
+--#0423
+--Obj: this is just the sample from Standford's online course
+--To find the college in the same state. 
+select cName, state
+from College C1
+where exists (select * from College C2
+			where C2.state=C1.state and C1.cName<>C2.cName); 
+
+--Obj: to find use the query and work with the same function as MAX
+select cName
+from College 1
+where not exists (select * from College C2
+				where C2.enrollment>C1.enrollment); 
+
+--Obj: same, to find the MAX data
+select sName, GPA
+from Student
+where GPA>=all(select GPA from Student); 
