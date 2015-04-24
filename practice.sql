@@ -82,3 +82,31 @@ where not exists (select * from College C2
 select sName, GPA
 from Student
 where GPA>=all(select GPA from Student); 
+
+
+--#0424
+--Obj: again to find the MAX data with any
+select cName
+from College S1
+where not enrollment <=any(select enrollment from College S2
+							where S2.cName<>S1.cName)
+
+--Obj: to exclude the smallest ID
+select sID, sName, sizeHS
+from Student
+where sizeHS > any (select sizeHS from Student); 
+
+--Obj: to realized the same function as any
+select sID, sName, sizeHS
+from Student S1
+where exists (select * from Student S2
+			where S2.sizeHS <S1.sizeHS); 
+
+--Obj: to make the subquery in the FROM clause
+select *
+from (select sID, sName, GPA, GPA*(sizeHS/1000.0) as scaledGPA
+from Student) G
+where abs(G.scaledGPA -GPA)>1.0
+
+--Obj: to make the subquery in the SELECT clause
+
