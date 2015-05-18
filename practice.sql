@@ -108,5 +108,46 @@ from (select sID, sName, GPA, GPA*(sizeHS/1000.0) as scaledGPA
 from Student) G
 where abs(G.scaledGPA -GPA)>1.0
 
---Obj: to make the subquery in the SELECT clause
+--05-07
+--Obj: to make the subquery in the WHERE clause
+select College.cName, state, GPA
+from College, Apply, Student
+where College.cName=Apply.cName
+	and Apply.sID=Student.sID
+	and GPA >= all
+		(select GPA from Student, Apply
+		 where Student.sID=Apply.sID
+			and Apply.cName=College.cName); 
 
+--Obj: to make the subquery in the SELECT clause
+select cName, state, 
+(select distinct GPA
+from Apply, Student
+where College.cName=Apply.cName
+	and Apply.sID=Student.sID
+	and GPA >= all
+		(select GPA from Student, Apply
+		 where Student.sID=Apply.sID
+			and Apply.cName=College.cName)) as GPA
+from College; 
+
+--0518 joins
+--inner join/ two relation example
+select distinct sName, major
+from Student inner join Apply
+on Student.sID=Apply.sID;
+
+--inner join/ two relation example
+select sName, GPA
+from Student join Apply
+on Student.sID=Apply.sID
+where/and sizeHS < 1000 and major='CS' and cName = 'Standford';
+
+--inner join/ three relation example
+select Apply.sID, sName, GPA, Apply.cName, enrollment
+from (Apply join Student on Apply.sID=Student.sID) join College
+on Apply.cName=College.cName;
+
+--natual join/ two relation example
+select distinct sName, major
+from Student natural join Apply; 
